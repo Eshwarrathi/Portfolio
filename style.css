@@ -726,3 +726,156 @@ section.visible {
     text-align: center;
   }
 }
+
+/* ─── Premium Preloader (Rathisoft Style) ─── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #090a10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.98);
+  pointer-events: none;
+}
+
+.preloader-content {
+  text-align: center;
+  max-width: 360px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preloader-brand {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  animation: brandPulse 2s ease-in-out infinite;
+}
+
+.preloader-brand .brand-dot {
+  color: #3b82f6;
+  text-shadow: 0 0 16px rgba(59, 130, 246, 0.8);
+}
+
+.preloader-progress-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.preloader-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.8);
+  border-radius: 99px;
+  transition: width 0.08s ease-out;
+}
+
+.preloader-counter {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.preloader-counter #preloaderPercent {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.preloader-status {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  min-height: 1.2rem;
+  transition: opacity 0.2s ease;
+}
+
+@keyframes brandPulse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* ─── Custom Interactive Cursor (Rathisoft Style) ─── */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 999999;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+}
+
+.cursor-outline {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(59, 130, 246, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 999998;
+  transition: width 0.25s ease-out, height 0.25s ease-out, border-color 0.25s ease-out, background-color 0.25s ease-out;
+  backdrop-filter: blur(0.5px);
+}
+
+/* Cursor on hover interactive items */
+.cursor-outline.cursor-hover {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(139, 92, 246, 0.7);
+  background-color: rgba(59, 130, 246, 0.08);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.cursor-dot.cursor-hover {
+  transform: translate(-50%, -50%) scale(1.6);
+  background-color: #8b5cf6;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.9);
+}
+
+/* Hide custom cursor on mobile/touch screens to avoid UX issues */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot,
+  .cursor-outline {
+    display: none !important;
+  }
+}
+
+

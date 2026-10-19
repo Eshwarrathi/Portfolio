@@ -12,6 +12,26 @@
 </head>
 <body>
 
+<!-- ─── Custom Interactive Cursor (Rathisoft Style) ─── -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-outline" id="cursorOutline"></div>
+
+<!-- ─── Premium Preloader (1% - 100%) ─── -->
+<div id="preloader" class="preloader">
+  <div class="preloader-content">
+    <div class="preloader-brand">
+      <span class="brand-text">Eshwar Lal</span><span class="brand-dot">.</span>
+    </div>
+    <div class="preloader-progress-track">
+      <div class="preloader-progress-bar" id="preloaderBar"></div>
+    </div>
+    <div class="preloader-counter">
+      <span id="preloaderPercent">0</span>%
+    </div>
+    <p class="preloader-status" id="preloaderStatus">Initializing portfolio...</p>
+  </div>
+</div>
+
 <header class="site-header">
   <nav class="navbar">
     <a class="navbar-brand" href="#home">Eshwar lal<span>.</span></a>
@@ -301,6 +321,56 @@
 </footer>
 
 <script>
+// Preloader Animation (1% to 100%)
+const preloader = document.getElementById('preloader');
+const preloaderPercent = document.getElementById('preloaderPercent');
+const preloaderBar = document.getElementById('preloaderBar');
+const preloaderStatus = document.getElementById('preloaderStatus');
+
+const statusMessages = [
+  { at: 15, text: "Loading creative modules..." },
+  { at: 45, text: "Optimizing Flutter & AI showcases..." },
+  { at: 75, text: "Preparing interactive experience..." },
+  { at: 95, text: "Ready to explore!" }
+];
+
+let currentProgress = 0;
+const duration = 1800; // ~1.8 seconds total
+const intervalTime = 20;
+const totalSteps = duration / intervalTime;
+
+const timer = setInterval(() => {
+  // Smooth easing increment
+  const remaining = 100 - currentProgress;
+  const step = Math.max(1, Math.ceil(remaining / 12));
+  currentProgress += step;
+
+  if (currentProgress >= 100) {
+    currentProgress = 100;
+    clearInterval(timer);
+    if (preloaderPercent) preloaderPercent.textContent = 100;
+    if (preloaderBar) preloaderBar.style.width = '100%';
+    if (preloaderStatus) preloaderStatus.textContent = "Welcome!";
+
+    setTimeout(() => {
+      if (preloader) {
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 600);
+      }
+    }, 350);
+  } else {
+    if (preloaderPercent) preloaderPercent.textContent = currentProgress;
+    if (preloaderBar) preloaderBar.style.width = currentProgress + '%';
+
+    const matchStatus = statusMessages.find(s => s.at <= currentProgress && currentProgress < s.at + 25);
+    if (matchStatus && preloaderStatus) {
+      preloaderStatus.textContent = matchStatus.text;
+    }
+  }
+}, intervalTime);
+
 // Mobile nav toggle
 const toggle = document.getElementById('navToggle');
 const links = document.getElementById('navLinks');
@@ -341,6 +411,51 @@ window.addEventListener('scroll', () => {
 document.getElementById('profilePic')?.addEventListener('click', function() {
   this.style.transform = 'scale(1.15) rotate(3deg)';
   setTimeout(() => { this.style.transform = ''; }, 400);
+});
+
+// Interactive Custom Cursor (Rathisoft Style)
+const cursorDot = document.getElementById('cursorDot');
+const cursorOutline = document.getElementById('cursorOutline');
+
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let outlineX = mouseX;
+let outlineY = mouseY;
+
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  if (cursorDot) {
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+  }
+});
+
+// Smooth trailing animation for outline
+function renderCursor() {
+  outlineX += (mouseX - outlineX) * 0.15;
+  outlineY += (mouseY - outlineY) * 0.15;
+
+  if (cursorOutline) {
+    cursorOutline.style.left = `${outlineX}px`;
+    cursorOutline.style.top = `${outlineY}px`;
+  }
+  requestAnimationFrame(renderCursor);
+}
+requestAnimationFrame(renderCursor);
+
+// Hover animations for buttons, links, cards, icons
+const interactiveElements = document.querySelectorAll('a, button, .card, .skill-card, .proj-card, .pub-card, .stat-num, input, textarea');
+interactiveElements.forEach((el) => {
+  el.addEventListener('mouseenter', () => {
+    cursorOutline?.classList.add('cursor-hover');
+    cursorDot?.classList.add('cursor-hover');
+  });
+  el.addEventListener('mouseleave', () => {
+    cursorOutline?.classList.remove('cursor-hover');
+    cursorDot?.classList.remove('cursor-hover');
+  });
 });
 </script>
 
